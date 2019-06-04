@@ -3,9 +3,9 @@ package br.ufc.crateus.halugar.model;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Entity;
-import javax.persistence.Table;
 import org.springframework.data.annotation.Id;
 
 @Entity
