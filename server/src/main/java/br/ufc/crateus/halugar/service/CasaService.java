@@ -18,7 +18,7 @@ public class CasaService {
 		return casaRepository.findById(id);
 	}
 	
-	public List<Casa> getCasa() {
+	public List<Casa> getCasas() {
 		return casaRepository.findAll();
 	}
 	

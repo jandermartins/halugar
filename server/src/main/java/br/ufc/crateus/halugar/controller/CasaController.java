@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufc.crateus.halugar.model.Casa;
@@ -25,17 +26,19 @@ public class CasaController {
 	}
 	
 	@RequestMapping(value = "/halugar/casa", method = RequestMethod.GET)
-	public ResponseEntity<List<Casa>> getCasa(){
+	public ResponseEntity<List<Casa>> getCasas(){
 		return new ResponseEntity<List<Casa>>((List<Casa>)
-				casaService.getCasa(), HttpStatus.OK);
+				casaService.getCasas(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/halugar/casa", method = RequestMethod.POST)
+	@ResponseBody
 	public Casa addCasa(Casa casa) {
 		return casaService.addCasa(casa);
 	}
 	
 	@RequestMapping(value = "/halugar/casa", method = RequestMethod.PUT)
+	@ResponseBody
 	public Casa editCasa(Casa casa) {
 		return casaService.editCasa(casa);
 	}
