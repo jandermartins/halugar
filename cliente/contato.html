@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html id="layoutHtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HáLugar - CONTATO</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png"/>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/vue-session.js"></script>
+    <script src="assets/js/axios.min.js"></script>
+</head>
+
+<body>
+
+    <div id="app" class="app">
+
+        <!-- NAVBAR - DESLOGADO | INÍCIO -->
+        <div v-if="flagLogin">
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link active" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="login.html">ENTRAR<i class="fa fa-lock float-left"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - DESLOGADO | FIM -->
+
+        <!-- NAVBAR - LOGADO | INÍCIO -->
+        <div v-else>
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="anunciar.html">ANUNCIAR<i class="fa fa-bullhorn float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link active" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="dropdown" id="minhaConta">
+                                <a class="dropdown-toggle nav-link dropdown-toggle float-none" data-toggle="dropdown" aria-expanded="false" href="#">MINHA CONTA<i class="fa fa-user float-left"></i></a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" role="presentation" :href="'meus_dados.html?id='+usuario.id">Meus dados</a>
+                                    <a class="dropdown-item" role="presentation" :href="'meu_anuncio.html?id='+anuncio.id">Meu anúncio</a>
+                                </div>
+                            </li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html" @click="sair">SAIR<i class="fa fa-times-circle float-left"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - LOGADO | FIM -->
+
+        <!-- FORMULÁRIO | INÍCIO -->
+        <div id="formularioContatoDiv" >
+            <div class="container" id="formularioContatoContainer" data-aos="fade-right">
+                <div class="row" id="formularioContatoRow">
+                    <div class="col-md-6 col-xl-4 align-self-center" id="contatoImgCol">
+                        <div>
+                            <p class="text-center"><img class="img-fluid" id="imgContato" src="assets/img/img_contato.png"></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-8" id="dadosContatoCol">
+                        <h2 class="text-center">FALE CONOSCO</h2>
+                        <div id="formularioContatoInputs">
+
+                            <!-- Limpar dados do formulário após envio da mensagem -->
+                            <form id="formulario">
+                                <div class="form-group"><input id="campoNome" class="form-control" type="text" name="nome" v-model="nome" required="Digite o nome" placeholder="Nome completo *" required></div>
+
+                                <div class="form-group"><input id="campoEmail" class="form-control" type="email" name="email" v-model="email" required="Digite o email" placeholder="Email *" required></div>
+
+                                <div class="form-group" id="textAreaDiv">
+                                    <textarea id="campoMensagem" class="form-control" name="mensagem" v-model="mensagem" required="Digite a mensagem" placeholder="Dúvidas, sugestões etc. *" required></textarea>
+                                </div>
+
+                                <p class="text-center" id="camposObrigatoriosP">* Campos obrigatórios</p><br>
+
+                                <p class="text-center">
+                                    <button class="btn btn-primary btn-block" id="botaoEnviar" type="button" @click="enviarEmail">Enviar</button>
+                                </p>
+                            </form>
+                            
+                            <!-- Área reservada para exibir mensagens convenientes ao usuário. Utilizar alguma flag com v-if -->
+                            <div v-if="flagErro">
+                                <br><div id="mensagemErro" class="alert alert-warning" align="center"><strong>ATENÇÃO! </strong>Preencha os campos corretamente.</div>
+                            </div>
+
+                            <div v-if="flagEnvio">
+                                <br><div id="mensagemSucesso" class="alert alert-success" align="center"><strong>ENVIADO! </strong>Responderemos assim que possível.</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FORMULÁRIO | FIM -->
+    </div>
+
+    <!-- FOOTER | INÍCIO -->
+    <footer>
+        <div class="row justify-content-center align-items-center align-content-center">
+            <div id="colFooter" class="col">
+                <p id="conteudoFooter" class="text-center">HáLugar - 2019</p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER | FIM -->
+
+    <!-- VUE | INÍCIO -->
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data:{
+                nome: "",
+                email: "",
+                mensagem: "",
+                usuario: {},
+                anuncio: {},
+                flagErro: false,
+                flagEnvio: false,
+                flagLogin: true // true: usuário precisa logar || false: usuário já logado
+            },
+            created() {
+                if (this.$session.exists()) {
+                    this.flagLogin = false;
+                }
+            },
+            methods:{
+                enviarEmail(){
+                    this.checkForm();
+                },
+                validEmail: function (email) {
+                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email);
+                },
+                checkForm: function (e) {
+                    if(!this.nome || !this.email || !this.mensagem || !this.validEmail(this.email)) {
+                        this.flagErro=true;
+                        this.flagEnvio=false;
+                    }
+                    else{
+                        this.flagErro=false;
+                        this.flagEnvio=true;
+
+                        // Limpar dados após o envios (ERRO!)
+                        document.getElementById("campoNome").value = "";
+                        document.getElementById("campoEmail").value = "";
+                        document.getElementById("campoMensagem").value = "";
+                    }
+                    
+                    // e.preventDefault(); // Apresentando erro!
+                },
+                sair() {
+                    this.$session.destroy()
+                    this.flagLogin = true;                        
+                }
+            }
+        });
+    </script>
+    <!-- VUE | INÍCIO -->
+
+</body>
+
+</html>

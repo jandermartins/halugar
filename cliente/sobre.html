@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html id="layoutHtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HáLugar - SOBRE</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png"/>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/vue-session.js"></script>
+    <script src="assets/js/axios.min.js"></script>
+</head>
+
+<body>
+
+    <div id="app" class="app">
+
+        <!-- NAVBAR - DESLOGADO | INÍCIO -->
+        <div v-if="flagLogin">
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link active" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="login.html">ENTRAR<i class="fa fa-lock float-left"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - DESLOGADO | FIM -->
+
+        <!-- NAVBAR - LOGADO | INÍCIO -->
+        <div v-else>
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="anunciar.html">ANUNCIAR<i class="fa fa-bullhorn float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link active" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="dropdown" id="minhaConta">
+                                <a class="dropdown-toggle nav-link dropdown-toggle float-none" data-toggle="dropdown" aria-expanded="false" href="#">MINHA CONTA<i class="fa fa-user float-left"></i></a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" role="presentation" :href="'meus_dados.html?id='+usuario.id">Meus dados</a>
+                                    <a class="dropdown-item" role="presentation" :href="'meu_anuncio.html?id='+anuncio.id">Meu anúncio</a>
+                                </div>
+                            </li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html" @click="sair">SAIR<i class="fa fa-times-circle float-left"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - LOGADO | FIM -->
+
+        <!-- TEXTO | INÍCIO -->
+        <div id="textoSobreDiv">
+            <div class="container" id="textoSobreContainer" data-aos="fade-right">
+                <div class="row" id="sobreRow">
+                    <div class="col-md-6" id="mascoteCol">
+                        <p class="text-center align-items-center"><img id="mascoteImg" class="img-fluid" src="assets/img/img_sobre_mascote.jpg" alt="Logo HáLugar"></p>
+                    </div>
+                    <div class="col-md-6 align-self-center" id="textoSobreCol">
+                        <div>
+                            <h2 class="text-center">Há lugar para você</h2>
+
+                            <p id="textoSobreP1" class="text-justify">HáLugar é uma plataforma que propõe possibilitar uma maior facilidade para que novos estudantes (ou até mesmo veteranos) encontrem moradia na região de Crateús, visto que a UFC está abarcando cada vez mais pessoas de outros lugares.<br></p>
+                            <p id="textoSobreP2" class="text-justify">Por meio de uma integração com o site da universidade, os estudantes poderão pesquisar quais as opções de moradia que lhes oferecem o melhor custo-benefício, ou seja, que oferecem o preço de aluguel mais acessível ou que são mais
+                                próximas do campus, do centro comercial, do ponto de ônibus e tudo mais que lhes for conveniente.<br></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- TEXTO | FIM -->
+
+    </div>
+
+    <!-- FOOTER | INÍCIO -->
+    <footer>
+        <div class="row justify-content-center align-items-center align-content-center">
+            <div id="colFooter" class="col">
+                <p id="conteudoFooter" class="text-center">HáLugar - 2019</p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER | FIM -->
+
+    <!-- VUE | INÍCIO -->
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data:{
+                flagLogin: true, // true: usuário precisa logar || false: usuário já logado
+                usuario: {},
+                anuncio: {}
+            },
+            created() {
+                if (this.$session.exists()) {
+                    this.flagLogin = false;
+                }
+            },
+            methods:{
+                sair() {
+                    this.$session.destroy()
+                    this.flagLogin = true;                        
+                }
+            }
+        });
+    </script>
+    <!-- VUE | FIM -->
+
+</body>
+
+</html>

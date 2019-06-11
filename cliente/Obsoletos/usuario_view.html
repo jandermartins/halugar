@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html style="position:relative; min-height: 100%;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HáLugar - DADOS PARA CONTATO</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png"/>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/vue-session.js"></script>
+    <script src="assets/js/axios.min.js"></script>
+</head>
+
+<body style="background-image:url(&quot;assets/img/background.png&quot;);background-repeat:repeat;background-size:auto;background-position:center;">
+    
+    <div id="app" style="min-height: calc(100vh - 130px);">
+
+        <!-- NAVBAR - DESLOGADO | INÍCIO -->
+        <div v-if="flagLogin">
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean" style="height:60px;background-color:#38197a;padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html" style="margin-right:0px;margin-left:20px;"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo" style="width:auto;height:40px;margin-left:0px;"></a>
+                    <button
+                        class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1" style="background-color:#ffffff;margin-right:20px;"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navcol-1" style="background-color:#38197a;">
+                            <ul class="nav navbar-nav ml-auto" style="margin:0px 0px 0px 0px;margin-left:0px;margin-right:0px;background-color:#38197a;">
+                                <li class="nav-item d-block align-self-center" role="presentation" style="background-color:#38197a;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link text-monospace" href="index.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;padding-right:8px;padding-left:8px;background-color:#38197a;">INÍCIO<i class="fa fa-home float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                    class="nav-item d-block align-self-center" role="presentation" style="background-color:transparent;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="procurar.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;padding-left:8px;padding-right:8px;background-color:transparent;">PROCURAR<i class="fa fa-search float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                    class="nav-item d-block align-self-center" role="presentation" style="background-color:#38197a;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="sobre.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;padding-right:8px;padding-left:8px;background-color:#38197a;">SOBRE<i class="fa fa-info-circle float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                    class="nav-item d-block align-self-center" role="presentation" style="background-color:#38197a;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="contato.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;background-color:#38197a;padding-right:8px;padding-left:8px;">CONTATO<i class="fa fa-envelope float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                   class="nav-item d-block align-self-center" role="presentation" style="background-color:#6d28aa;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="login.html" style="color:rgb(255,255,255);font-family:'ABeeZee', monospace;background-color:#38197a;padding-right:8px;padding-left:8px;margin-right:0px;">ENTRAR<i class="fa fa-lock float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                            </ul>
+                        </div>
+                 </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - DESLOGADO | FIM -->
+
+        <!-- NAVBAR - LOGADO | INÍCIO -->
+        <div v-else>
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean" style="height:60px;background-color:#38197a;padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html" style="margin-right:0px;margin-left:20px;"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo" style="width:auto;height:40px;margin-left:0px;"></a>
+                    <button
+                        class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1" style="background-color:#ffffff;margin-right:20px;"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navcol-1" style="background-color:#38197a;">
+                            <ul class="nav navbar-nav ml-auto" style="margin:0px 0px 0px 0px;margin-left:0px;margin-right:0px;background-color:#38197a;">
+                                <li class="nav-item d-block align-self-center" role="presentation" style="background-color:#38197a;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link text-monospace" href="index.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;padding-right:8px;padding-left:8px;background-color:#38197a;">INÍCIO<i class="fa fa-home float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                    class="nav-item d-block align-self-center" role="presentation" style="background-color:transparent;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="procurar.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;padding-left:8px;padding-right:8px;background-color:transparent;">PROCURAR<i class="fa fa-search float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                    class="nav-item d-block align-self-center" role="presentation" style="background-color:transparent;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="anunciar.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;padding-left:8px;padding-right:8px;background-color:transparent;">ANUNCIAR<i class="fa fa-bullhorn float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                    class="nav-item d-block align-self-center" role="presentation" style="background-color:#38197a;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="sobre.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;padding-right:8px;padding-left:8px;background-color:#38197a;">SOBRE<i class="fa fa-info-circle float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                    class="nav-item d-block align-self-center" role="presentation" style="background-color:#38197a;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="contato.html" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;margin-right:0px;background-color:#38197a;padding-right:8px;padding-left:8px;">CONTATO<i class="fa fa-envelope float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                                <li
+                                    class="dropdown" style="padding-top:8px;padding-bottom:8px;margin-right:auto;margin-left:auto;padding-right:8px;padding-left:8px;cursor: pointer;"><a class="dropdown-toggle nav-link dropdown-toggle float-none" data-toggle="dropdown" aria-expanded="false" href="#" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;background-color:#38197a;border-radius:5px;">MINHA CONTA<i class="fa fa-user float-left" style="margin-top:3px;margin-right:5px;color:rgb(255,255,255);"></i></a>
+                                    <div
+                                        class="dropdown-menu" role="menu" style="color:black;font-family:'ABeeZee', sans-serif;"><a class="dropdown-item" role="presentation" :href="'meus_dados.html?id='+usuario.id">Meus dados</a><a class="dropdown-item" role="presentation" :href="'meu_anuncio.html?id='+anuncio.id">Meu anúncio</a></div>
+                                </li>
+                                <li class="nav-item d-block align-self-center" role="presentation" style="background-color:transparent;margin-top:5px;margin-bottom:5px;margin-right:10px;margin-left:10px;"><a class="nav-link" href="index.html" @click="sair" style="color:rgb(255,255,255);font-family:'ABeeZee', sans-serif;background-color:transparent;padding-right:8px;padding-left:8px;margin-right:0px;">SAIR<i class="fa fa-times-circle float-left" style="margin-right:5px;margin-top:3px;margin-left:0px;"></i></a></li>
+                            </ul>
+                        </div>
+                 </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - LOGADO | FIM -->
+
+        <!-- DADOS | INÍCIO -->
+        <div style="max-width:1000px;margin-right:auto;margin-left:auto;">
+            <div class="container" data-aos="fade-right" style="max-width:1000px;margin-top:90px;margin-bottom:30px;background-color:#e0cee0;padding:20px;border-radius:20px;box-shadow:0px 0px 10px 0px gray;margin-right:auto;margin-left:auto;">
+                <h2 class="text-center" style="margin-bottom:15px;font-family:ABeeZee, sans-serif;font-weight:bold;">Dados para contato</h2>
+                <div class="row" style="margin-right:0px;margin-left:0px;">
+                    <div class="col-md-6 col-xl-4 align-self-center" style="padding-right:30px;padding-left:30px;">
+                        <div class="row">
+                            <div class="col align-self-center">
+                                <p class="text-center"><img class="img-fluid" src="assets/img/card_user.png" style="padding:20px;"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-8" style="padding-right:30px;padding-left:30px;background-color:#c6aadb;border-radius: 5px;">
+                        <br><br>
+                        <p style="margin-bottom:0px;font-family:ABeeZee, sans-serif;"><strong>NOME:</strong> {{usuario.nome}} </p><br>
+                        <p style="margin-bottom:0px;font-family:ABeeZee, sans-serif;"><strong>TELEFONE:</strong> {{usuario.telefone}} </p><br>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- DADOS | FIM -->
+
+    </div>
+
+    <!-- FOOTER | INÍCIO -->
+    <footer style="background-color:#38197a;height:40px;">
+        <div class="row justify-content-center align-items-center align-content-center" style="margin-right:0px;margin-left:0px;">
+            <div class="col" style="padding-right:0px;padding-left:0px;">
+                <p class="text-center" style="font-family:ABeeZee, sans-serif;color:rgb(255,255,255);margin-bottom:0px;padding-top:9px;font-size:14px;">HáLugar - 2019</p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER | FIM -->
+
+    <!-- VUE | INÍCIO -->
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                url: "http://10.5.30.140:8080/halugar/api/users",
+                nome: "",
+                login: "",
+                senha: "",
+                telefone: "",
+                id: "",
+                usuario: {},
+                anuncio: {},
+                flagLogin: true // true: usuário precisa logar || false: usuário já logado
+            },
+            created() {
+                if (this.$session.exists()) {
+                    this.flagLogin = true;
+                }
+                //else{
+                //    location.href = "acesso_negado.html"; // Se o usuário não estiver logado, redirecionar para a página de acesso restrito.
+                //}
+                vm = this;
+                axios.get(this.url).then(function (r) {
+                    if(r.data.user.length>1) {
+                        vm.usuarios = r.data.user;    
+                    } else {
+                        vm.usuarios = r.data;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                this.id = this.$session.get("id");
+                this.getUserById(this.id);
+            },
+            methods: {
+                getUser() {
+                    vm = this;
+                    axios.get(this.url + "/" + this.id).then(function (r) {
+                        console.log(r.data);
+                        vm.usuario = r.data;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                getUsers() {
+                    vm = this;
+                    axios.get(this.url).then(function (r) {
+                        console.log(r.data.user);
+                        vm.usuarios = r.data.user;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                getUserById(id){
+                    vm=this;
+                    axios.get(this.url + "/" + this.id).then( function (r) {
+                        vm.usuario = r.data;
+                        
+                        console.log(r.data);
+                        }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                sair() {
+                    this.$session.destroy()
+                    this.flagLogin = true;                        
+                }
+            }
+        });
+    </script>
+    <!-- VUE | FIM -->
+
+</body>
+
+</html>

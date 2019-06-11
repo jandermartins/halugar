@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html id="layoutHtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HáLugar - MEUS DADOS</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png"/>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/vue-session.js"></script>
+    <script src="assets/js/axios.min.js"></script>
+</head>
+
+<body>
+    
+    <div id="app" class="app">
+
+        <!-- NAVBAR - LOGADO | INÍCIO -->
+        <div v-if="flagLogin">
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="anunciar.html">ANUNCIAR<i class="fa fa-bullhorn float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="dropdown" id="minhaContaActive">
+                                <a class="dropdown-toggle nav-link active dropdown-toggle float-none" id="dropdownA" data-toggle="dropdown" aria-expanded="false" href="#">MINHA CONTA<i class="fa fa-user float-left"></i></a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" role="presentation" :href="'meus_dados.html?id='+usuario.id">Meus dados</a>
+                                    <a class="dropdown-item" role="presentation" :href="'meu_anuncio.html?id='+anuncio.id">Meu anúncio</a>
+                                </div>
+                            </li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html" @click="sair">SAIR<i class="fa fa-times-circle float-left"></i></a></li>
+                        </ul>
+                    </div>
+                 </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - LOGADO | FIM -->
+
+        <!-- FORMULÁRIO | INÍCIO -->
+        <div id="meusDadosDiv">
+            <div id="meusDadosContainer" class="container" data-aos="fade-right">
+                <h2 class="text-center">MEUS DADOS</h2>
+                <div class="row" id="meusDadosRow">
+
+                    <div class="col-md-6 col-xl-4 align-self-center" id="colunaImagemUsuario">
+                        <div class="row">
+                            <div class="col align-self-center">
+                                <p class="text-center"><img id="imagemUsuario" class="img-fluid" src="assets/img/card_user.png"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-8" id="colunaDadosUsuario">
+                        <br><br>
+                        <p id="dadoAnuncioView"><strong>NOME:</strong> {{usuario.nome}} </p><br>
+                        <p id="dadoAnuncioView"><strong>LOGIN:</strong> {{usuario.login}} </p><br>
+                        <p id="dadoAnuncioView"><strong>TELEFONE:</strong> {{usuario.telefone}} </p><br>
+
+                        <div class="row" id="botoesDadosUsuario">
+                            <div class="col" id="botaoAtualizarCol">
+                                <p class="text-center">
+                                    <button id="botaoAtualizarDados" class="btn btn-primary btn-block" type="button" @click="atualizarUsuario">Atualizar dados</button>
+                                </p>
+                            </div>
+                            <div class="col" id="botaoExcluirCol">
+                                <p class="text-center">
+                                    <button id="botaoExcluirConta" class="btn btn-danger btn-block" type="button" @click="excluirConta">Excluir conta</button>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FORMULÁRIO | FIM -->
+    </div>
+
+    <!-- FOOTER | INÍCIO -->
+    <footer>
+        <div class="row justify-content-center align-items-center align-content-center">
+            <div id="colFooter" class="col">
+                <p id="conteudoFooter" class="text-center">HáLugar - 2019</p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER | FIM -->
+
+    <!-- VUE | INÍCIO -->
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                url: "http://10.5.30.140:8080/halugar/api/users",
+                nome: "",
+                login: "",
+                telefone: "",
+                id: "",
+                usuario: {},
+                anuncio: {},
+                flagLogin: true // true: usuário precisa logar || false: usuário já logado
+            },
+            created() {
+                if (this.$session.exists()) {
+                    this.flagLogin = true;
+                }
+                //else{
+                //    location.href = "acesso_negado.html"; // Se o usuário não estiver logado, redirecionar para a página de acesso restrito.
+                //}
+
+                vm = this;
+                axios.get(this.url).then(function (r) {
+                    if(r.data.user.length>1) {
+                        vm.usuarios = r.data.user;    
+                    } else {
+                        vm.usuarios = r.data;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                this.id = this.$session.get("id");
+                this.getUserById(this.id);
+            },
+            methods: {
+                getUser() {
+                    vm = this;
+                    axios.get(this.url + "/" + this.id).then(function (r) {
+                        console.log(r.data);
+                        vm.usuario = r.data;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                getUsers() {
+                    vm = this;
+                    axios.get(this.url).then(function (r) {
+                        console.log(r.data.user);
+                        vm.usuarios = r.data.user;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                getUserById(id){
+                    vm=this;
+                    axios.get(this.url + "/" + this.id).then( function (r) {
+                        vm.usuario = r.data;
+                        
+                        console.log(r.data);
+                        }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                atualizarUsuario(){
+                    // Implementar método para atualizar usuário. Redirecionar para usuario_edit.html (COSMO)
+                },
+                excluirConta() { // Ebibir modal de confirmação
+                    axios.delete(this.url + "/" + this.usuario.id).then(function (r) {
+                        console.log(r);
+
+                        this.$session.destroy()
+                        window.location.replace('index.html');
+
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                sair() {
+                    this.$session.destroy()
+                    this.flagLogin = true;                        
+                }
+            }
+        });
+    </script>
+    <!-- VUE | FIM -->
+
+</body>
+
+</html>

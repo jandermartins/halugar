@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html id="layoutHtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HáLugar - EDITAR ANÚNCIO</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png"/>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/axios.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/vue-session.js"></script>
+    <script src="assets/js/jquery.maskedinput.min.js"></script>
+
+    <!-- VALIDAR CEP | INÍCIO -->
+    <script type="text/javascript">
+        /* Máscaras ER */
+        function mascara(o,f){
+            v_obj=o
+            v_fun=f
+            setTimeout("execmascara()",1)
+        }
+        function execmascara(){
+            v_obj.value=v_fun(v_obj.value)
+        }
+        function mcep(c){
+            c=c.replace(/\D/g,"");             
+            c=c.replace(/^(\d{5})(\d)/g,"$1-$2"); 
+            c=c.replace(/(\d)(\d{3})$/,"$1-$2");
+            return c;
+        }
+        function id( el ){
+            return document.getElementById( el );
+        }
+        window.onload = function(){
+            id('cep').onkeypress = function(){
+                mascara( this, mcep );
+            }
+        }
+    </script>
+    <!-- VALIDAR CEP | FIM -->
+    
+</head>
+
+<body>
+    
+    <div id="app" class="app">
+
+        <!-- NAVBAR - LOGADO | INÍCIO -->
+        <div v-if="flagLogin">
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="anunciar.html">ANUNCIAR<i class="fa fa-bullhorn float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="dropdown" id="minhaContaActive">
+                                <a class="dropdown-toggle nav-link active dropdown-toggle float-none" id="dropdownA" data-toggle="dropdown" aria-expanded="false" href="#">MINHA CONTA<i class="fa fa-user float-left"></i></a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" role="presentation" :href="'meus_dados.html?id='+usuario.id">Meus dados</a>
+                                    <a class="dropdown-item" role="presentation" :href="'meu_anuncio.html?id='+anuncio.id">Meu anúncio</a>
+                                </div>
+                            </li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html" @click="sair">SAIR<i class="fa fa-times-circle float-left"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - LOGADO | FIM -->
+    
+        <!-- FORMULÁRIO | INÍCIO -->
+        <div class="container" id="formularioContainer" data-aos="fade-right">
+            <h2 class="text-center">EDITAR ANÚNCIO #{{anuncio.id}}</h2>
+            <form>
+                <div class="row">
+                    <div class="col-md-6 col-xl-4" id="colunaImagemAnunciar">
+                        <div class="row" id="imagemDiv">
+
+                            <div class="col">
+                                <!-- Carregar imagem original -->
+                                <!-- Atualizar imagem ao selecionar arquivo. (Erro) -->
+                                <!-- Image file upload using Vue.js and instant preview - JSFiddle @ https://jsfiddle.net/mani04/5zyozvx8/ -->
+                                <div class="file-upload-form" id="file-upload-form"><img class="img-fluid" src="assets/img/casa_temp.png"></div>
+                                <p id="imagemAnunciarP" class="text-center">Imagem principal</p>
+                            </div>
+
+                        </div>
+                        <div class="row" id="botaoAlterarRow">
+                            <div class="col" id="botaoAlterarCol">
+                                <p class="text-center"><label class="btn btn-secondary" id="botaoAlterar">Alterar...<input type="file" id="file" ref="file" name="image" @change="handleFileUpload()" hidden></label></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-8" style="margin-top:15px;margin-bottom:15px;padding-right:30px;padding-left:30px;">
+
+                        <!-- INPUTS | INÍCIO -->
+                        <div class="row" id="enderecoNumeroRow">
+                            <div class="col" id="enderecoCol"><input id="inputEndereco" class="form-control" type="text" v-model="endereco" name="endereco" required="Digite o endereço" placeholder="Endereço *" required></div>
+                            <div class="col-xl-3" id="numeroCol"><input id="inputNumero" type="number" v-model="numero" name="numero" class="form-control" min="1" required="Digite o número" placeholder="Número *" required></div>
+                        </div>
+
+                        <div class="row" id="cepBairroRow">
+                            <div class="col-xl-4" id="cepCol"><input id="inputCep" class="form-control" id="cep" type="text" v-model="cep" name="cep" maxlength="9" required="Digite o CEP" placeholder="CEP *" required></div>
+
+                            <div class="col-xl-8" id="bairroCol"><input id="inputBairro" class="form-control" type="text" v-model="bairro" name="bairro" required="Digite o Bairro" placeholder="Bairro *" required></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-6" id="precoCol"><input id="inputPreco" class="form-control" type="text" name="preco" v-model="preco" required="Digite o preço" placeholder="Preço do aluguel (R$) *" required></div>
+
+                            <div class="col-xl-6" id="vagasCol"><input id="inputVagas" class="form-control" type="number" name="vagas" min="1" v-model="vagas" required="Digite a quantidade de vagas" placeholder="Quantidade de vagas *" required></div>
+                        </div>
+
+                        <div class="row" id="informacoesAdicionaisRow">
+                            <div class="col">
+                                <p id="informacoesAdicionaisP">Informações adicionais:</p>
+                            </div>
+                        </div>
+                        <div class="row" id="informacoesRow">
+                            <div class="col" id="informacoesCol"><textarea id="informacoesTextArea" class="form-control" name="informacoes" v-model="informacoes" placeholder="Complemento, pontos de referência, preferências etc."></textarea></div>
+                        </div>
+                        <!-- INPUTS | FIM -->
+
+                        <p id="camposObrigatoriosP" class="text-center">* Campos obrigatórios</p>
+
+                        <div class="row">
+                            <div class="col" id="atualizarAnuncioCol">
+                                <p class="text-center"><button id="atualizarAnuncioBotao" class="btn btn-primary btn-block" type="button" @click="checkForm()">Atualizar</button></p>
+
+                                <div>
+                                    <div v-if="campoIncorreto">
+                                        <br><div id="mensagemErro" class="alert alert-warning" align="center"><strong>ATENÇÃO! </strong>Preencha os campos corretamente.
+                                        </div>
+                                    </div>
+
+                                    <div v-if="anuncioAtualizado">
+                                        <br><div id="mensagemSucesso" class="alert alert-success" align="center"><strong>SUCESSO! </strong>O anúncio foi atualizado.</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- FORMULÁRIO | FIM -->
+
+    </div>    
+
+    <!-- FOOTER | INÍCIO -->
+    <footer style="background-color:#38197a;height:40px;">
+        <div class="row justify-content-center align-items-center align-content-center" style="margin-right:0px;margin-left:0px;">
+            <div class="col" style="padding-right:0px;padding-left:0px;">
+                <p class="text-center" style="font-family:ABeeZee, sans-serif;color:rgb(255,255,255);margin-bottom:0px;padding-top:9px;font-size:14px;">HáLugar - 2019</p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER | FIM -->
+
+    <!-- VUE | INÍCIO -->
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                urlCasa: "http://10.5.30.140:8080/halugar/api/casa",
+                urlUsuario: "http://10.5.30.140:8080/halugar/api/users",
+                endereco: "",
+                numero: "",
+                cep: "",
+                bairro: "",
+                informacoes: "",
+                preco: "",
+                vagas: "",
+                file: null,
+                usuario: {},
+                anuncio: {},
+                campoIncorreto: false,
+                anuncioAtualizado: false,
+                flagLogin: true // true: usuário precisa logar || false: usuário já logado
+            },
+            created() {
+                if (this.$session.exists()) {
+                    this.flagLogin = true;
+                }
+                //else{
+                //    location.href = "acesso_negado.html"; // Se o usuário não estiver logado, redirecionar para a página de acesso restrito.
+                //}
+
+                vm = this;
+                axios.get(this.urlCasa).then(function (r) {
+                    if(r.data.casa.length>1) {
+                        vm.casas = r.data.casa;    
+                    } else {
+                        vm.casas = r.data;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            methods: {                
+                putAnuncio(){ // Substituir dados antigos (Verificar código do COSMO + FÁBIO)
+                    let formData = new FormData();
+                    formData.append('endereco', this.endereco);
+                    formData.append('numero', this.numero);
+                    formData.append('cep', this.cep);
+                    formData.append('bairro', this.bairro);
+                    formData.append('informacoes', this.informacoes);
+                    formData.append('preco', this.preco);
+                    formData.append('vagas', this.vagas);
+
+                    // Verificar como atualizar imagem
+
+                    axios.post(this.url,                    	
+                    	formData,{
+                    		headers: {
+                    			'Content-Type': 'multipart/form-data'
+                    		}
+                    	}
+                    ).then(function(r) {
+                    	console.log(r.data);
+                    }).catch(function (error){
+                    	console.log(error);
+                    });
+                },
+                handleFileUpload() {
+                    this.file = this.$refs.file.files[0];                        
+                },
+                validPrice: function (preco) {
+                    var re = /^\d*(\,.\d+)?$/;
+                    return re.test(preco);
+                },
+                checkForm: function (e) {
+                    if(!this.endereco || !this.numero || !this.cep || !this.bairro || !this.preco || !this.vagas || this.cep.length<9 || !this.validPrice(this.preco)){
+                        this.campoIncorreto=true;
+                        this.anuncioAtualizado=false;
+                    }
+                    else{  
+                        this.putAnuncio();
+                        this.campoIncorreto=false;                  
+                        this.anuncioAtualizado=true;
+                    }
+
+                    // e.preventDefault(); // Apresentanto erro!
+                },
+                sair() {
+                    this.$session.destroy();
+                    this.flagLogin = true;                  
+                }
+            }
+        });
+    </script>
+    <!-- VUE | FIM -->
+
+</body>
+
+</html>

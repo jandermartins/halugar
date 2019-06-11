@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html id="layoutHtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HáLugar</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png"/>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/vue-session.js"></script>
+    <script src="assets/js/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app" class="app">
+
+    	<!-- NAVBAR - DESLOGADO | INÍCIO -->
+        <div v-if="flagLogin">
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link active" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation" ><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="sobre.html" >SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="login.html">ENTRAR<i class="fa fa-lock float-left"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - DESLOGADO | FIM -->
+
+        <!-- NAVBAR - LOGADO | INÍCIO -->
+        <div v-else>
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link active" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="anunciar.html">ANUNCIAR<i class="fa fa-bullhorn float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="dropdown" id="minhaConta">
+                                <a class="dropdown-toggle nav-link dropdown-toggle float-none" data-toggle="dropdown" aria-expanded="false" href="#">MINHA CONTA<i class="fa fa-user float-left"></i></a>
+                                <div class="dropdown-menu" role="menu">
+                                	<a class="dropdown-item" role="presentation" :href="'meus_dados.html?id='+usuario.id">Meus dados</a>
+                                	<a class="dropdown-item" role="presentation" :href="'meu_anuncio.html?id='+anuncio.id">Meu anúncio</a>
+                                </div>
+                            </li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html" @click="sair">SAIR<i class="fa fa-times-circle float-left"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - LOGADO | FIM -->
+
+        <!-- CAROUSEL | INÍCIO -->
+        <div>
+            <div class="container-fluid" id="carousel" data-aos="fade-right">
+                <div class="carousel slide" data-ride="carousel" id="carousel-1">
+                    <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active"><img class="w-100 d-block" src="assets/img/img1.jpg" alt="Slide Image"></div>
+                        <div class="carousel-item"><img class="w-100 d-block" src="assets/img/img2.jpg" alt="Slide Image"></div>
+                        <div class="carousel-item"><img class="img-fluid w-100 d-block" src="assets/img/img3.jpg" alt="Slide Image"></div>
+                    </div>
+                    <div>
+                    	<a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span>
+                    	</a>
+                    </div>
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-1" data-slide-to="1"></li>
+                        <li data-target="#carousel-1" data-slide-to="2"></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- CAROUSEL | FIM -->
+
+        <!-- ÚLTIMOS ANÚNCIOS | INÍCIO -->
+	    <div>
+	        <div id="ultimosAnuncios" class="container" data-aos="fade-right">
+	            <h5 id="tituloUltimosAnuncios">ÚLTIMOS ANÚNCIOS</h5>
+                <div v-if="casas.length==0">
+                    <br><div id="nenhumAnuncio" class="alert alert-warning" align="center"><strong>AVISO! </strong>Não existem anúncios cadastrados.</div>
+                </div>
+
+                <!-- Se existirem 4 ou menos anúncios cadastrados -->
+                <div v-if="casas.length <= 4">
+                    <div id="exibirCasas" class="col-md-3" v-for="anuncio in casas"> 
+                        <p id="imagemAnuncioP" class="text-center"><a :href="'anuncio_view.html?id='+anuncio.id"><img id="imagemAnuncio" class="img-fluid" :src="'uploads/'+anuncio.id+'?'+new Date().getTime()"></a></p>
+                        <p id="bairroAnuncio" class="text-center"><strong>{{anuncio.bairro}}</strong></p>
+                        <p id="precoAnuncio" class="text-center">R$ {{anuncio.preco}}</p>
+                    </div>
+                    <div style="clear: both;"></div> <!-- Não permite que o conteúdo extravase o perímetro da div -->
+                </div>
+
+                <!-- Se existirem mais de 4 anúncios cadastrados -->
+                <div v-else>
+                    <div id="exibirCasas" class="col-md-3" v-for="anuncio in casas.slice((casas.length)-4,casas.length)"> 
+                        <p id="imagemAnuncioP" class="text-center"><a :href="'anuncio_view.html?id='+anuncio.id"><img id="imagemAnuncio" class="img-fluid" :src="'uploads/'+anuncio.id+'?'+new Date().getTime()"></a></p>
+                        <p id="bairroAnuncio" class="text-center"><strong>{{anuncio.bairro.toUpperCase()}}</strong></p>
+                        <p id="precoAnuncio" class="text-center">R$ {{anuncio.preco}}</p>
+                    </div>
+                    <div style="clear: both;"></div> <!-- Não permite que o conteúdo extravase o perímetro da div -->
+                </div>
+
+	        </div>
+	    </div>
+	    <!-- ÚLTIMOS ANÚNCIOS | FIM -->
+
+	    <!-- TODOS OS ANÚNCIOS | INÍCIO -->
+	    <div>
+            <div id="todosAnuncios" class="container" data-aos="fade-right">
+                <h5 id="tituloTodosAnuncios">TODOS OS ANÚNCIOS</h5>
+
+                <div v-if="casas.length==0">
+                    <br><div id="nenhumAnuncio" class="alert alert-warning" align="center"><strong>AVISO! </strong>Não existem anúncios cadastrados.</div>
+                </div>
+
+                <!-- Exibição de todos os anúncios cadastrados -->
+                <div>
+                    <div id="exibirCasas" class="col-md-3" data-aos="fade-right" v-for="anuncio in casas"> 
+                        <p id="imagemAnuncioP" class="text-center"><a :href="'anuncio_view.html?id='+anuncio.id"><img id="imagemAnuncio" class="img-fluid" v-bind:src="'uploads/'+anuncio.id+'?'+new Date().getTime()"></a></p>
+                        <p id="bairroAnuncio" class="text-center"><strong>{{anuncio.bairro.toUpperCase()}}</strong></p>
+                        <p id="precoAnuncio" class="text-center">R$ {{anuncio.preco}}</p>
+                    </div>
+                    <div style="clear: both;"></div> <!-- Não permite que o conteúdo extravase o perímetro da div -->
+                </div>
+            </div>
+        </div>
+	    <!-- TODOS OS ANÚNCIOS | FIM -->
+        
+    </div>
+
+    <!-- FOOTER | INÍCIO -->
+    <footer>
+        <div class="row justify-content-center align-items-center align-content-center">
+            <div id="colFooter" class="col">
+                <p id="conteudoFooter" class="text-center">HáLugar - 2019</p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER | FIM -->
+
+    <!-- VUE | INÍCIO -->
+    <script>
+    	var app = new Vue({
+    		el: "#app",
+    		data:{
+                urlCasa: "http://10.5.30.140:8080/halugar/api/casa",
+                urlUsuario: "http://10.5.30.140:8080/halugar/api/users",
+                casas: [],
+                usuario: {},
+                anuncio: {},
+                flagLogin: true // true: usuário precisa logar || false: usuário já logado
+                },
+                created() {
+                    if (this.$session.exists()) {
+                        this.flagLogin = false;
+                    }
+                    
+                    vm = this;
+                    axios.get(this.urlCasa).then(function (r) {
+                        if(r.data.casa.length > 1) {
+                            vm.casas = r.data.casa;   
+                        } else {
+                            vm.casas = r.data;
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+
+                    id = this.$session.get("id");
+
+                    axios.get(this.urlUsuario + "/" + id).then(function (r) {
+                        vm.usuario = r.data;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                methods: {
+                    sair() {
+                        this.$session.destroy()
+                        this.flagLogin = true;                        
+                    }
+                }
+    		});
+    </script>
+    <!-- VUE | FIM --> 
+       
+</body>
+
+</html>

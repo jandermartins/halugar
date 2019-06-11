@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html id="layoutHtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HáLugar - ENTRAR</title>
+    
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png"/>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/vue-session.js"></script>
+    <script src="assets/js/axios.min.js"></script>
+    <script src="assets/js/v-mask.min.js"></script>
+    <script src="assets/js/jquery.maskedinput.min.js"></script>
+
+    <!-- MÁSCARA - TELEFONE | INÍCIO -->
+    <script type="text/javascript">
+        function mascara(o,f){
+            v_obj=o
+            v_fun=f
+            setTimeout("execmascara()",1)
+        }
+        function execmascara(){
+            v_obj.value=v_fun(v_obj.value)
+        }
+        function mtel(v){
+            v=v.replace(/\D/g,"");
+            v=v.replace(/^(\d{2})(\d)/g,"($1) $2");
+            v=v.replace(/(\d{5})(\d{4})$/,"$1-$2");
+            return v;
+        }
+        function id( el ){
+            return document.getElementById( el );
+        }
+        window.onload = function(){
+            id('telefoneCadastro').onkeypress = function(){
+                mascara( this, mtel );
+            }
+        }
+    </script>
+    <!-- MÁSCARA - TELEFONE | FIM -->
+    
+</head>
+
+<body>
+
+    <div id="app" class="app">
+        
+        <!-- NAVBAR - DESLOGADO | INÍCIO -->
+        <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+            <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1" style="background-color:#38197a;">
+                    <ul class="nav navbar-nav ml-auto" style="margin:0px 0px 0px 0px;margin-left:0px;margin-right:0px;background-color:#38197a;">
+                        <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                        <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                        <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                        <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                        <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link active" href="login.html">ENTRAR<i class="fa fa-lock float-left"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- NAVBAR - DESLOGADO | FIM -->
+
+        <!-- CONTAINER | INÍCIO -->
+        <div id="divPrincipal">
+            <div class="container" id="loginContainer">
+                <div class="row" data-aos="fade-right">
+
+                    <!-- LOGIN | INÍCIO -->
+                    <div class="col-md-6" id="loginCol">
+                        <div><p class="text-center"><img class="img-fluid" id="loginImg" src="assets/img/user.png"></p></div>                        
+                        <h1 class="text-center">Login</h1>
+                        <p id="legendaEntrar" class="text-center">Já possuo cadastro</p>
+                        
+                        <form @submit="checkFormLogin" method="post">
+                            <div class="form-group"><input class="form-control" type="text" name="login" id="loginCadastrado" v-model="loginCadastrado" required="Digite o login" placeholder="Login" required></div>
+                            <div class="form-group"><input class="form-control" type="password" name="senha" id="senhaCadastrado" v-model="senhaCadastrado" required="Digite a senha" placeholder="Senha" required></div>
+                            <div class="form-group">
+                                <button id="botaoLogin" class="btn btn-primary btn-block" type="button" @click="checkFormLogin()">Entrar</button>
+                            </div>
+                            
+                            <!-- Esqueci minha senha (Modal) -->
+                            <p class="text-center"><a id="recuperarSenha" href="#" data-toggle="modal" data-target="#modalSenha">Esqueci minha senha</a></p>
+
+                            <!-- Área para exibir mensagens convenientes: -->
+                            <div v-if="campoIncorretoLogin">
+                                <br><div id="mensagemErro" class="alert alert-warning" align="center"><strong>ATENÇÃO! </strong>Login ou senha inválidos.</div>
+                            </div>
+
+                            <div v-if="usuarioNaoExiste">
+                                <br><div id="mensagemErro" class="alert alert-danger" align="center"><strong>ERRO! </strong>Usuário não encontrado.</div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- LOGIN | FIM -->
+
+                    <!-- CADASTRO | INÍCIO -->
+                    <!-- Limpar dados do formulário após realizar o cadastro -->
+                    <div class="col-md-6" id="cadastroCol">
+                        <div><p class="text-center"><img id="cadastroImg" src="assets/img/new_user.png"></p></div>
+
+                        <h1 class="text-center">Criar conta</h1>
+                        <p id="legendaEntrar" class="text-center">Novo usuário</p>
+
+                        <div>
+                            <form @submit="checkFormCadastro" method="post">
+                                <div class="form-group"><input id="nomeCadastro" class="form-control" type="text" v-model="nome" name="nome" required="Digite o nome" placeholder="Nome completo" required></div>
+                                <div class="form-group"><input id="emailCadastro" class="form-control" type="email" v-model="email" name="email" required="Digite o email" placeholder="Email" required></div>
+                                <div class="form-group"><input id="loginCadastro" class="form-control" type="text" v-model="login" name="login" required="Digite o login" placeholder="Login" required></div>
+                                <div class="form-group"><input id="senhaCadastro" class="form-control" type="password" v-model="senha" name="senha" required="Digite a senha" placeholder="Senha" required></div>
+                                <div class="form-group"><input  class="form-control" id="telefoneCadastro" type="text" v-model="telefone" name="telefone" required="Digite o telefone" maxlength="15" placeholder="Telefone" required></div>
+                                <div class="form-group"><button id="botaoCadastrar" class="btn btn-success btn-block" @click="checkFormCadastro()" type="button">Cadastrar</button></div>
+
+                                <!-- Área para exibir mensagens convenientes: -->
+                                <div v-if="campoIncorretoCadastro">
+                                    <br><div id="mensagemErro" class="alert alert-warning" align="center"><strong>ATENÇÃO! </strong>Preencha os campos corretamente.
+                                    </div>
+                                </div>
+
+                                <div v-if="cadastroRealizado">
+                                    <br><div id="mensagemSucesso" class="alert alert-success" align="center"><strong>CADASTRADO! </strong>Usuário criado com sucesso.</div>
+                                </div>
+
+                                <div v-if="usuarioJaExiste">
+                                    <br><div id="mensagemErro" class="alert alert-danger" align="center"><strong>ERRO! </strong>Este usuário já está cadastrado.</div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <!-- CADASTRO | FIM -->
+
+                </div>
+            </div>
+        </div>
+        <!-- CONTAINER | FIM -->
+
+        <!-- MODAL | INÍCIO -->
+        <div class="modal fade" id="modalSenha" tabindex="-1" role="dialog" aria-labelledby="ModalCentralizado" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalSenha">Recuperar senha</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                         </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="usuarioEmail" class="col-form-label">Digite seu email:</label>
+                                <input type="email" class="form-control" id="usuarioEmail">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL | FIM -->
+
+    </div>   
+
+    <!-- FOOTER | INÍCIO -->
+    <footer>
+        <div class="row justify-content-center align-items-center align-content-center">
+            <div id="colFooter" class="col">
+                <p id="conteudoFooter" class="text-center">HáLugar - 2019</p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER | FIM -->
+
+    <!-- VUE | INÍCIO -->
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                urlUsuario: "http://localhost:8080/halugar/usuario",
+                urlLogin: "http://localhost:8080/halugar/login",
+                loginCadastrado: "",
+                senhaCadastrado: "",
+                usuarios: [],
+                nome: "",
+                login: "",
+                senha: "",
+                email: "",
+                telefone: "",
+                id: "",
+                usuario: {},
+                campoIncorretoCadastro: false,
+                campoIncorretoLogin: false,
+                cadastroRealizado: false,
+                usuarioNaoExiste: false,
+                usuarioJaExiste: false
+            },
+            created() {
+                if (this.$session.exists()) {
+                    window.location.replace("index.html"); // Se o usuário estiver logado, redirecionar para a index
+                }
+
+                vm = this;
+                axios.get(this.urlUsuario).then(function (r) {
+                    if(r.data.user.length>1) {
+                        vm.usuarios = r.data.user;    
+                    } else {
+                        vm.usuarios = r.data;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            methods: {
+                logar() {
+                    vm = this;
+                    axios.defaults.withCredentials = true;
+
+                    axios.post(this.urlLogin, {
+                        login: vm.loginCadastrado,
+                        senha: vm.senhaCadastrado
+                    }).then(function (r) {
+                        if (r.status == 200) {
+                            vm.$session.start();
+                            vm.$session.set("id", r.data);
+                            window.location.replace("index.html");
+                        }
+                        if(r.status==401){
+                        	vm.usuarioNaoExiste = true;
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                        if(error.response.status==401){
+
+                            vm.usuarioNaoExiste = true;
+                        }
+                        vm.error = "Não foi possível logar!";
+                    });                          
+                },
+                validEmail: function (email) {
+                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email);
+                },
+                getUsers() {
+                    vm = this;
+                    axios.get(this.url).then(function (r) {
+                        console.log(r.data.user);
+                        vm.usuarios = r.data.user;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                getUser() {
+                    vm = this;
+                    axios.get(this.url + "/" + this.id).then(function (r) {
+                        console.log(r.data);
+                        vm.usuario = r.data;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                postUser() {
+                    let formData = new FormData();
+                    formData.append('nome', this.nome);
+                    formData.append('senha', this.senha);
+                    formData.append('login', this.login);
+                    formData.append('telefone', this.telefone);
+                    formData.append('email', this.email);
+
+                    vm=this;
+                    
+                    axios.post(this.url,
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    ).then(function (r) {
+                        if(r.status == 400){
+                            vm.usuarioJaExiste = true;
+                            vm.cadastroRealizado = false;
+
+                            // r.preventDefault(); // Erro!
+                        }
+                    }).catch(function (r) {
+                        if(r.response.status == 400){
+                            vm.usuarioJaExiste = true;
+                            vm.cadastroRealizado = false;
+
+                            // r.preventDefault(); // Erro!
+                        }
+                        console.log(r);
+                    });
+                },
+                checkFormLogin: function (e) {
+                    if(!this.loginCadastrado) {
+                        this.campoIncorretoLogin=true;
+                    }
+                    else
+                    if(!this.senhaCadastrado) {
+                        this.campoIncorretoLogin=true;
+                    }
+                    else{
+                        this.logar();
+                    }               
+                    // e.preventDefault(); // Erro!
+                },
+                checkFormCadastro: function (e) {
+                    if(!this.nome || !this.email || !this.login || !this.senha || this.telefone.length<11 || !this.validEmail(this.email)){
+                        this.cadastroRealizado = false;
+                        this.campoIncorretoCadastro=true;
+                    }
+                    else{
+                        this.campoIncorretoCadastro = false;
+                        this.postUser();                        
+                    }
+                    // e.preventDefault(); // Erro!
+                }
+            }
+        });
+    </script>
+    <!-- VUE | FIM -->
+
+</body>
+</html>

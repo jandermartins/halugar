@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html id="layoutHtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HáLugar - EDITAR DADOS</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png"/>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="assets/js/aos.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/vue-session.js"></script>
+    <script src="assets/js/axios.min.js"></script>
+
+    <!-- MÁSCARA - TELEFONE | INÍCIO -->
+    <script type="text/javascript">
+        function mascara(o,f){
+            v_obj=o
+            v_fun=f
+            setTimeout("execmascara()",1)
+        }
+        function execmascara(){
+            v_obj.value=v_fun(v_obj.value)
+        }
+        function mtel(v){
+            v=v.replace(/\D/g,"");            
+            v=v.replace(/^(\d{2})(\d)/g,"($1) $2");
+            v=v.replace(/(\d{5})(\d{4})$/,"$1-$2");
+            return v;
+        }
+        function id( el ){
+            return document.getElementById( el );
+        }
+        window.onload = function(){
+            id('telefone').onkeypress = function(){
+                mascara( this, mtel );
+            }
+        }
+    </script>
+    <!-- MÁSCARA - TELEFONE | FIM -->
+
+</head>
+
+<body>
+    
+    <div id="app" class="app">
+
+        <!-- NAVBAR - LOGADO | INÍCIO -->
+        <div v-if="flagLogin">
+            <nav class="navbar navbar-light navbar-expand-xl fixed-top navigation-clean">
+                <div class="container-fluid"><a class="navbar-brand text-monospace" href="index.html"><img class="img-fluid float-left" src="assets/img/brand_ha-lugar.png" alt="HáLugar Logo"></a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navcol-1" style="background-color:#38197a;">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html">INÍCIO<i class="fa fa-home float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="procurar.html">PROCURAR<i class="fa fa-search float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="anunciar.html">ANUNCIAR<i class="fa fa-bullhorn float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="sobre.html">SOBRE<i class="fa fa-info-circle float-left"></i></a></li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="contato.html">CONTATO<i class="fa fa-envelope float-left"></i></a></li>
+                            <li class="dropdown" id="minhaContaActive">
+                                <a class="dropdown-toggle nav-link active dropdown-toggle float-none" id="dropdownA" data-toggle="dropdown" aria-expanded="false" href="#">MINHA CONTA<i class="fa fa-user float-left"></i></a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" role="presentation" :href="'meus_dados.html?id='+usuario.id">Meus dados</a>
+                                    <a class="dropdown-item" role="presentation" :href="'meu_anuncio.html?id='+anuncio.id">Meu anúncio</a>
+                                </div>
+                            </li>
+                            <li class="nav-item d-block align-self-center" role="presentation"><a class="nav-link" href="index.html" @click="sair">SAIR<i class="fa fa-times-circle float-left"></i></a></li>
+                        </ul>
+                    </div>
+                 </div>
+            </nav>
+        </div>
+        <!-- NAVBAR - LOGADO | FIM -->
+
+        <!-- FORMULÁRIO | INÍCIO -->
+        <div id="editarDadosUsuario">
+            <div id="editarDadosUsuarioContainer" class="container" data-aos="fade-right">
+                <h2 class="text-center">EDITAR DADOS</h2>
+
+                <div id="editarDadosUsuarioRow" class="row">
+                    <div class="col-md-6 col-xl-4 align-self-center" id="imagemEditarUsuarioCol">
+                        <div class="row">
+                            <div class="col align-self-center">
+                                <p class="text-center"><img id="editarUsuarioImagem" class="img-fluid" src="assets/img/card_user.png"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-8" id="editarUsurioColForm">
+                        <form @submit="checkForm" method="post">
+                            <div class="form-group"><input id="inputNome" class="form-control" type="text" v-model="nome" name="nome" required="Digite o nome" placeholder="Nome completo" required></div>
+                            <div class="form-group"><input id="inputEmail" class="form-control" type="email" v-model="email" name="email" required="Digite o email" placeholder="Email" required></div>
+                            <div class="form-group"><input id="inputLogin" class="form-control" type="text" v-model="login" name="login" required="Digite o login" placeholder="Login" required></div>
+                            <div class="form-group"><input id="inputSenha" class="form-control" type="password" v-model="senha" name="senha" required="Digite a senha" placeholder="Senha" required></div>
+                            <div class="form-group"><input id="inputTelefone" class="form-control" id="telefone" type="text" v-model="telefone" name="telefone" required="Digite o telefone" maxlength="15" placeholder="Telefone" required></div>
+
+                            <div class="form-group"><button id="botaoAtualizarUsuario" class="btn btn-primary btn-block" @click="checkForm" type="button">Atualizar</button></div>
+
+                            <div>
+                                <div v-if="campoIncorreto">
+                                    <br><div id="mensagemErro" class="alert alert-warning" align="center"><strong>ATENÇÃO! </strong>Preencha os campos corretamente.
+                                    </div>
+                                </div>
+
+                                <div v-if="usuarioAtualizado">
+                                    <br><div id="mensagemSucesso" class="alert alert-success" align="center"><strong>SUCESSO! </strong>Os dados foram atualizados.</div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FORMULÁRIO | FIM -->
+    </div>
+
+    <!-- FOOTER | INÍCIO -->
+    <footer>
+        <div class="row justify-content-center align-items-center align-content-center">
+            <div id="colFooter" class="col">
+                <p id="conteudoFooter" class="text-center">HáLugar - 2019</p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER | FIM -->
+
+    <!-- VUE | INÍCIO -->
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                urlUser: "http://10.5.30.140:8080/halugar/api/users",
+                nome: "",
+                login: "",
+                senha: "",
+                telefone: "",
+                id: "",
+                email: "",
+                usuario: {},
+                anuncio: {},
+                flagLogin: true, // true: usuário precisa logar || false: usuário já logado
+                campoIncorreto: false,
+                usuarioAtualizado: false
+            },
+            created() {
+                if (this.$session.exists()) {
+                    this.flagLogin = true;
+                }
+                //else{
+                //    location.href = "acesso_negado.html"; // Se o usuário não estiver logado, redirecionar para a página de acesso restrito.
+                //}
+
+                vm = this;
+                axios.get(this.urlUser).then(function (r) {
+                    if(r.data.user.length>1) {
+                        vm.usuarios = r.data.user;    
+                    } else {
+                        vm.usuarios = r.data;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                this.id = this.$session.get("id");
+                this.getUserById(this.id);
+            },
+            methods: {
+                getUser() {
+                    vm = this;
+                    axios.get(this.url + "/" + this.id).then(function (r) {
+                        console.log(r.data);
+                        vm.usuario = r.data;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                getUsers() {
+                    vm = this;
+                    axios.get(this.url).then(function (r) {
+                        console.log(r.data.user);
+                        vm.usuarios = r.data.user;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                putUser() {
+                    let formData = new FormData();
+                    formData.append('nome', this.nome);
+                    formData.append('senha', this.senha);
+                    formData.append('login', this.login);
+                    formData.append('telefone', this.telefone);
+
+                    axios.put(this.url + "/" + this.id,
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    ).then(function (r) {
+                        console.log(r.data);
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                validEmail: function (email) {
+                    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return re.test(email);
+                },
+                getUserById(id){
+                    vm=this;
+                    axios.get(this.url + "/" + this.id).then( function (r) {
+                        vm.usuario = r.data;
+                        
+                        console.log(r.data);
+                        }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                checkForm: function (e) {
+                    if(!this.nome || !this.email || !this.login || !this.senha || this.telefone.length<11 || !this.validEmail(this.email)){
+                        this.usuarioAtualizado = false;
+                        this.campoIncorreto=true;
+                    }
+                    else{
+                        this.campoIncorreto = false;
+                        this.usuarioAtualizado = true;
+                        this.putUser();                    
+                    }
+                    // e.preventDefault(); // Erro!
+                },
+                sair() {
+                    this.$session.destroy()
+                    this.flagLogin = true;                        
+                }
+            }
+        });
+    </script>
+    <!-- VUE | FIM -->
+
+</body>
+
+</html>

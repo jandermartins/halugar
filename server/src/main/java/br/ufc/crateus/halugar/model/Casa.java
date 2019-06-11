@@ -1,11 +1,12 @@
 package br.ufc.crateus.halugar.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Entity;
-import org.springframework.data.annotation.Id;
+
 
 @Entity
 @Table(name = "casa")
