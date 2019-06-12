@@ -260,7 +260,7 @@
                 },
                 getUsers() {
                     vm = this;
-                    axios.get(this.url).then(function (r) {
+                    axios.get(this.urlUsuario).then(function (r) {
                         console.log(r.data.user);
                         vm.usuarios = r.data.user;
                     }).catch(function (error) {
@@ -269,7 +269,7 @@
                 },
                 getUser() {
                     vm = this;
-                    axios.get(this.url + "/" + this.id).then(function (r) {
+                    axios.get(this.urlUsuario + "/" + this.id).then(function (r) {
                         console.log(r.data);
                         vm.usuario = r.data;
                     }).catch(function (error) {
@@ -286,7 +286,7 @@
 
                     vm=this;
                     
-                    axios.post(this.url,
+                    axios.post(this.urlUsuario,
                         formData,
                         {
                             headers: {

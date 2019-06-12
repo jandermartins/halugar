@@ -20,9 +20,9 @@ public class Usuario {
 	private String email;
 	@Column(length = 200, unique = true, nullable = false)
 	private String login;
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private String senha;
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private String telefone;
 
 	public Usuario(int id, String nome, String email, String login, String senha, String telefone) {

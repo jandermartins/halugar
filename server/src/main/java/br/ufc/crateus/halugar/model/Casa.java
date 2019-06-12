@@ -3,6 +3,7 @@ package br.ufc.crateus.halugar.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,21 +14,21 @@ import javax.persistence.Table;
 public class Casa {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private String endereco;
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private int numero;
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private String cep;
 	@Column(nullable = true)
 	private String bairro;
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String informacoes;
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private String preco;
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private int vagas;
 
 	public Casa(int id, String endereco, int numero, String cep, String bairro, String informacoes, String preco,
